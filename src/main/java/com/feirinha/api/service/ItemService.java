@@ -17,7 +17,7 @@ public class ItemService {
     }
 
     public Item create(ItemDTO dto) {
-        if (repository.findByName(dto.getName()).isPresent()) {
+        if (repository.existsByNameIgnoreCase(dto.getName()).isPresent()) {
             throw new ConflictException("Item com esse nome já existe.");
         }
         Item item = new Item();
@@ -37,7 +37,7 @@ public class ItemService {
     public Item update(Long id, ItemDTO dto) {
         Item item = findById(id);
 
-        if (!item.getName().equals(dto.getName()) && repository.findByName(dto.getName()).isPresent()) {
+        if (!item.getName().equals(dto.getName()) && repository.existsByNameIgnoreCase(dto.getName()).isPresent()) {
             throw new ConflictException("Já existe item com esse nome.");
         }
 
